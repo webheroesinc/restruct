@@ -1,0 +1,36 @@
+ReStruct is distributed under the GNU General Public License version 3 and is
+also available under alternative licenses negotiated directly with Web Heroes
+Inc.  If you obtained ReStruct under the GPL, then the GPL applies to all
+ReStruct modules used on your system as well, except as defined below. The GPL
+(version 3) is included in this source tree in the file COPYING.
+
+Web Heroes Inc. holds copyright and/or sufficient licenses to all components of
+the ReStruct package, and therefore can grant, at its sole discretion, the
+ability for companies, individuals, or organizations to create proprietary or
+Open Source (even if not GPL) modules which may use at runtime the portions of
+ReStruct which fall under our copyright/license umbrella, or are distributed
+under more flexible licenses than GPL.
+
+If you wish to use our code in other GPL programs, don't worry -- there is no
+requirement that you provide the same exception in your GPL'd products (although
+if you've written a module for ReStruct we would strongly encourage you to make
+the same exception that we do).
+
+In addition, ReStruct implements many other communications protocols.  It is our
+belief that applications using these protocols to manage or control a ReStruct
+instance do not have to be licensed under the GPL or a compatible license, as we
+believe these protocols do not create a 'derivative work' as referred to in the
+GPL.  However, should any court or other judiciary body find that these
+protocols do fall under the terms of the GPL, then we hereby grant you a license
+to use these protocols in combination with ReStruct in external applications
+licensed under any license you wish.
+
+If you have any questions regarding our licensing policy, please contact us:
+
++1.780.920.5571
+contact@webheroes.ca
+
+Web Heroes Inc.
+18354 - 118 Avenue NW
+Edmonton, AB
+Canada T5S 2G2
