@@ -1,0 +1,18 @@
+{
+  "name": "restruct",
+  "version": "0.1.0",
+  "description": "",
+  "main": "restruct.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:/webheroesinc/restruct.git"
+  },
+  "author": "Matthew Brisebois",
+  "license": "GPLv3",
+  "dependencies": {
+    "pythonify": "^0.1.5"
+  }
+}
