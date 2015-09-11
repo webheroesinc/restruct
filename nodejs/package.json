@@ -1,7 +1,7 @@
 {
-  "name": "restruct",
-  "version": "0.1.0",
-  "description": "",
+  "name": "restruct-data",
+  "version": "0.1.1",
+  "description": "ERROR: No README data found!",
   "main": "restruct.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +13,7 @@
   "author": "Matthew Brisebois",
   "license": "GPLv3",
   "dependencies": {
-    "pythonify": "^0.1.5"
-  }
+    "pythonify": "^0.1.6"
+  },
+  "devDependencies": {}
 }
