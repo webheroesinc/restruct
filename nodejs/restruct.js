@@ -1,5 +1,10 @@
 
 var py		= require('pythonify');
+var extend	= require('util')._extend;
+
+function copy(obj) {
+    return extend({}, obj);
+}
 
 function dictpop(dict, key, d) {
     var v;
@@ -52,7 +57,7 @@ function restruct(data, columns) {
 	return attach_list(data, columns);
 
     var result	= [];
-    var struct	= py(columns).copy();
+    var struct	= copy(columns);
 
     dictpop( struct, '.key', null );
     dictpop( struct, '.index', null );
@@ -84,7 +89,7 @@ function attach_list(rows, columns) {
     if (columns['.key'] !== undefined)
 	return attach_groups(rows, columns);
 
-    var struct		= py(columns).copy();
+    var struct		= copy(columns);
     if (Object.keys(struct).indexOf(".include") !== -1) {
 	var include	= struct.pop('.include');
 	include.update(struct);
@@ -105,7 +110,7 @@ function extract_struct(path, data) {
 	data		= data[s];
     }
     var s		= segments.pop();
-    return dictpop(py(data).copy(), s);
+    return dictpop(copy(data), s);
 }
 function path_assign(path, data1, data2) {
     var segments	= path.split('.');
@@ -119,7 +124,7 @@ function path_assign(path, data1, data2) {
     return data1;
 }
 function attach_groups(data, struct) {
-    var gstruct		= py(struct).copy();
+    var gstruct		= copy(struct);
     var sub_structs	= {};
     var duplicates	= [];
     var gkey		= dictpop( gstruct, '.key', null);
