@@ -35,6 +35,13 @@ function type(obj) {
         throw new Error("TypeError: type() takes exactly one argument ("+arguments.length+" given)");
     return obj.constructor.name;
 }
+function values(obj) {
+    var values 	= []
+    , keys	= Object.keys(obj);
+    for( var i=0; i<keys.length; i++ )
+        values.push( obj[keys[i]] );
+    return values;
+}
 
 function dictpop(dict, key, d) {
     var v;
@@ -196,13 +203,13 @@ function attach_groups(data, struct) {
     }
 
     if (gsingle === true) {
-	if (len(gresult))
-	    gresult	= gresult.popitem();
+	if (Object.keys(gresult).length)
+	    gresult	= dictpop( gresult, Object.keys(gresult).pop() );
 	else
 	    gresult	= {};
     }
     else if (gindex === false)
-	gresult		= gresult.values();
+	gresult		= values(gresult);
 
     return gresult;
 }
