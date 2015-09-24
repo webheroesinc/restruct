@@ -1,9 +1,39 @@
 
-var py		= require('pythonify');
 var extend	= require('util')._extend;
 
 function copy(obj) {
     return extend({}, obj);
+}
+function is_global(obj) {
+    if (obj === undefined || obj === null)
+	return false;
+    global.asdfghjkl = true;
+    var answer	= obj.asdfghjkl === true;
+    delete global.asdfghjkl;
+    return answer;
+}
+function is_dict(obj) {
+    if (obj === undefined || obj === null)
+	return false;
+    if( obj.callee !== undefined )
+        return false;
+    if( obj.constructor.name == 'Object'
+        || is_global(obj) )
+        return true;
+    return false;
+}
+function is_string(str) {
+    if (str === undefined || str === null)
+	return false;
+    String.prototype.tinkerbell	= true;
+    var answer	= str.tinkerbell === true;
+    delete String.prototype.tinkerbell;
+    return answer;
+}
+function type(obj) {
+    if( obj === undefined )
+        throw new Error("TypeError: type() takes exactly one argument ("+arguments.length+" given)");
+    return obj.constructor.name;
 }
 
 function dictpop(dict, key, d) {
@@ -22,7 +52,7 @@ RegExp.escape = function(str) {
 function format(str) {
     for( var i=1; i < arguments.length; i++ ) {
         var arg	= arguments[i];
-        if( py.is_dict(arg) ) {
+        if( is_dict(arg) ) {
             for( var k in arg ) {
                 var re	= new RegExp( RegExp.escape("{"+k+"}"), 'g' );
                 str		= str.replace(re, arg[k]);
@@ -35,11 +65,24 @@ function format(str) {
     }
     return str;
 }
+function lstrip(str, chars) {
+    var chars	= chars ? chars : " ";
+    var re		= new RegExp( "^["+chars+"]*" );
+    return str.replace(re, "");
+}
+function rstrip(str, chars) {
+    var chars	= chars ? chars : " ";
+    var re		= new RegExp( "["+chars+"]*$" );
+    return str.replace(re, "");
+}
+function strip(str, chars) {
+    return lstrip(rstrip(str, chars), chars);
+}
 
 
 function fill(s, data) {
     if (s.indexOf(':<') === 0)
-	return data[s.slice(2).strip()]
+	return data[ strip(s.slice(2)) ]
 
     var v	= format(s, data)
     if (s.indexOf(':') === 0) {
@@ -53,7 +96,7 @@ function fill(s, data) {
 }
 
 function restruct(data, columns) {
-    if (py.type(data) === 'Array')
+    if (type(data) === 'Array')
 	return attach_list(data, columns);
 
     var result	= [];
@@ -74,9 +117,9 @@ function restruct(data, columns) {
 	k		= fill(k, data);
 	if (v === true)
 	    struct[k]	= data[k];
-	else if(py.is_dict(v))
+	else if(is_dict(v))
 	    struct[k]	= restruct(data, v);
-	else if(py.is_string(v))
+	else if(is_string(v))
 	    struct[k]	= fill(v, data);
 	else if(v === false)
 	    delete struct[k];
