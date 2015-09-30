@@ -59,7 +59,8 @@ RegExp.escape = function(str) {
 function format(str) {
     for( var i=1; i < arguments.length; i++ ) {
         var arg	= arguments[i];
-        if( is_dict(arg) ) {
+	// MySQL results return as RowDataPackets, not Objects...
+        if( is_dict(arg) || arg.constructor.name === "RowDataPacket" ) {
             for( var k in arg ) {
                 var re	= new RegExp( RegExp.escape("{"+k+"}"), 'g' );
                 str		= str.replace(re, arg[k]);
