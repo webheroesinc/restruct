@@ -12,6 +12,8 @@
   },
   "author": "Matthew Brisebois",
   "license": "GPLv3",
-  "dependencies": {},
+  "dependencies": {
+    "populater": "^0.2.0"
+  },
   "devDependencies": {}
 }

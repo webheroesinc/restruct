@@ -1,5 +1,6 @@
 
 var extend	= require('util')._extend;
+var fill	= require('populater');
 
 function copy(obj) {
     return extend({}, obj);
@@ -50,55 +51,6 @@ function dictpop(dict, key, d) {
     else {
         v	= dict[key];
 	delete dict[key];
-    }
-    return v;
-}
-RegExp.escape = function(str) {
-    return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-}
-function format(str) {
-    for( var i=1; i < arguments.length; i++ ) {
-        var arg	= arguments[i];
-	// MySQL results return as RowDataPackets, not Objects...
-        if( is_dict(arg) || arg.constructor.name === "RowDataPacket" ) {
-            for( var k in arg ) {
-                var re	= new RegExp( RegExp.escape("{"+k+"}"), 'g' );
-                str		= str.replace(re, arg[k]);
-            }
-        }
-        else {
-            var re	= new RegExp( RegExp.escape("{"+i+"}"), 'g' );
-            str	= str.replace(re, arg);
-        }
-    }
-    return str;
-}
-function lstrip(str, chars) {
-    var chars	= chars ? chars : " ";
-    var re		= new RegExp( "^["+chars+"]*" );
-    return str.replace(re, "");
-}
-function rstrip(str, chars) {
-    var chars	= chars ? chars : " ";
-    var re		= new RegExp( "["+chars+"]*$" );
-    return str.replace(re, "");
-}
-function strip(str, chars) {
-    return lstrip(rstrip(str, chars), chars);
-}
-
-
-function fill(s, data) {
-    if (s.indexOf(':<') === 0)
-	return data[ strip(s.slice(2)) ]
-
-    var v	= format(s, data)
-    if (s.indexOf(':') === 0) {
-	try {
-	    v	= eval(v.slice(1));
-	} catch (err) {
-	    v	= null;
-	}
     }
     return v;
 }
@@ -198,7 +150,7 @@ function attach_groups(data, struct) {
 	var rows	= groups[key];
 	gresult[key]	= restruct(rows[0], gstruct);
 	for (var i in duplicates) {
-	    var k		= duplicates[i];
+	    var k	= duplicates[i];
 	    path_assign(k, gresult[key], restruct(rows, sub_structs[k]));
 	}
     }
@@ -228,4 +180,5 @@ function group_data(data, gkey) {
     return groups;
 }
 
-module.exports	= restruct;
+restruct.populater	= fill;
+module.exports		= restruct;
