@@ -30,6 +30,13 @@ function __format__(s, data) {
 }
 
 function __fill__(__str__, data) {
+    if (typeof __str__ !== 'string')
+	throw new Error(
+	    __fill__(
+		"Populater can only handle string formatting not type '{type}' {data}",
+		{ type:typeof __str__, data:JSON.stringify(__str__, null, 4) }
+	    )
+	);
     __fill__.last	= __str__;
     __fill__.data	= data;
     var v;
