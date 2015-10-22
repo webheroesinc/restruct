@@ -13,11 +13,12 @@ function restruct(data, struct) {
     this.flatten(this.result, this, 'result');
     return this.result;
 }
+restruct.flattenTrigger	= '.array';
 restruct.prototype.flatten = function (result, parent, key) {
-    // Go through entire result and flatten dicts that contain the
-    // '.array' command.  If not true just remove command.
-    var flatten		= result['.array'];
-    delete result['.array'];
+    // Go through entire result and flatten dicts that contain
+    // this.flattenTrigger command.  If not true just remove command.
+    var flatten		= result[restruct.flattenTrigger];
+    delete result[restruct.flattenTrigger];
     if (flatten === true)
 	parent[key] = result = Object.keys(result).map(function (k) {
 	    return result[k];
@@ -34,7 +35,7 @@ restruct.prototype.extend = function (data, struct, result) {
     struct		= struct === undefined ? this.struct : struct;
     
     for (var key in struct) {
-	if (key === '.array') {
+	if (key === restruct.flattenTrigger) {
 	    result[key]	= struct[key];
 	    continue;
 	}
