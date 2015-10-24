@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "first": "Travis",
+        "last": "Mottershead",
+        "email": "travis@pitch.so",
+        "gender": "m",
+        "age": 20,
+        "weight": 150
+    },
+    {
+        "id": 2,
+        "first": "Matthew",
+        "last": "Brisebois",
+        "email": "matthew@pitch.so",
+        "gender": "m",
+        "age": 25,
+        "weight": 210
+    },
+    {
+        "id": 3,
+        "first": "Geoff",
+        "last": "Dick",
+        "email": "geoff@pitch.so",
+        "gender": "m",
+        "age": 28,
+        "weight": 130
+    },
+    {
+        "id": 4,
+        "first": "Valerie",
+        "last": "Brisebois",
+        "email": "valerie@brisebois.me",
+        "gender": "f",
+        "age": 24,
+        "weight": 120
+    }
+]
