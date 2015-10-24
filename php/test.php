@@ -3,48 +3,15 @@
 require __DIR__ . '/restruct.php';
 
 $People	= json_decode( file_get_contents('../people.json') );
+$struct	= json_decode( file_get_contents('./struct.json') );
 
 function weightClass($w) {
     return $w >= 200 ? '200+' : '0-199';
 }
+    
+// echo json_encode($struct, JSON_PRETTY_PRINT) . "\n";
 
-$data	= restruct($People, [
-    "= \$this->age > 18 ? 'adults' : 'kids'" => [
-        ["= \$this->age > 25", "{first}"]
-    ],
-    "= \$this->first === 'Travis'?'best':null" => (object)[
-	"name" => "{first} {last}",
-	"hotness" => "0% *******-------------------------- 100%"
-    ],
-    "= \$this->first !== 'Travis'?'losers':null" => [(object)[
-	"name" => "{first} {last}",
-	"hotness" => "0% *-------------------------------- 100%"
-    ]],
-    "genders" => (object)[
-	".array" => true,
-        "< gender" => (object)[
-	    ".array" => true,
-	    0 => "= \$this->age > 25",
-	    1 => "{first}"
-	]
-    ],
-    "= weightClass(\$this->weight)" => (object)[
-	"{id}" => (object)[
-	    "name" => "{first} {last}",
-	    "weight" => "< weight"
-	],
-	"location" => (object)[
-	    ".array" => true,
-	    0 => "< age",
-	    1 => "< weight"
-	]
-    ],
-    "= \$this->gender==='m'?'male':'female'" => [(object)[
-	"{id}" => (object)[
-	    "name" => "{first} {last}",
-	    "email" => true
-	]
-    ]]
-]);
+$data	= restruct($People, $struct);
 echo json_encode($data, JSON_PRETTY_PRINT) . "\n";
+
 ?>

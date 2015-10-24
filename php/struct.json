@@ -1,0 +1,45 @@
+{
+    "= $this->age > 18 ? 'adults' : 'kids'": [
+	[
+	    "= $this->age > 25",
+	    "{first}"
+	]
+    ],
+    "= $this->first === 'Travis'?'best':null": {
+	"name": "{first} {last}",
+	"hotness": "0% *******-------------------------- 100%"
+    },
+    "= $this->first !== 'Travis'?'losers':null": [
+	{
+	    "name": "{first} {last}",
+	    "hotness": "0% *-------------------------------- 100%"
+	}
+    ],
+    "genders": {
+	".array": true,
+	"< gender": {
+	    ".array": true,
+	    "0": "= $this->age > 25",
+	    "1": "{first}"
+	}
+    },
+    "= weightClass($this->weight)": {
+	"{id}": {
+	    "name": "{first} {last}",
+	    "weight": "< weight"
+	},
+	"location": {
+	    ".array": true,
+	    "0": "< age",
+	    "1": "< weight"
+	}
+    },
+    "= $this->gender==='m'?'male':'female'": [
+	{
+	    "{id}": {
+		"name": "{first} {last}",
+		"email": true
+	    }
+	}
+    ]
+}

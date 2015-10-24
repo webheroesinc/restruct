@@ -103,6 +103,8 @@ class __restruct__ {
     }
 }
 function restruct($data, $struct) {
+    if (!(is_object($struct) || is_array($struct)))
+        return false;
     $obj	= new __restruct__($data, $struct);
     return $obj->result;
 }
