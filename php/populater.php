@@ -48,6 +48,7 @@ function __format__($__str__, $data) {
 }
 
 function populater($str, $data) {
+    $data		= json_decode(json_encode($data));
     if (__startsWith__($str, '<')) {
         return __eval__( __convert__(substr($str, 1)), $data );
     }
