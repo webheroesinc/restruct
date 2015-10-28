@@ -1,5 +1,5 @@
-/python/build
-/python/dist
-/python/COPYING
-/python/LICENSE
-/python/restruct.egg-info
+*.log
+*.pyc
+*~
+/testing.sqlite
+/docker/webheroes/chaosrouter/chaosrouter

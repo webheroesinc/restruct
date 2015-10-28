@@ -24,7 +24,7 @@ restruct.prototype.flatten = function (result, parent, key) {
 	    return result[k];
 	});
     for (var k in result)
-	if (typeof result[k] === 'object')
+	if (typeof result[k] === 'object' && result[k] !== null)
 	    this.flatten(result[k], result, k);
 }    
 restruct.prototype.extend = function (data, struct, result) {
@@ -41,7 +41,7 @@ restruct.prototype.extend = function (data, struct, result) {
 	}
 	var v		= struct[key];
 	k		= fill(key, data);
-	if (k === undefined)
+	if (k === undefined || k === null)
 	    continue;
 
 	if (result[k] === undefined) {
@@ -52,7 +52,7 @@ restruct.prototype.extend = function (data, struct, result) {
 	    else if(Array.isArray(v)) {
 		if (typeof v[0] === 'string')
 		    result[k]	= [ fill(v[0], data) ];
-		else if (typeof v[0] === 'object')
+		else if (typeof v[0] === 'object' && v[0] !== null)
 		    result[k]	= [ this.extend(data, v[0], {}) ];
 		else
 		    result[k]	= [ v[0] ];
@@ -71,7 +71,7 @@ restruct.prototype.extend = function (data, struct, result) {
 	    if (Array.isArray(struct[key])) {
 		if (typeof v[0] === 'string')
 		    result[k].push( fill( struct[key][0], data ) );
-		else if (typeof v[0] === 'object')
+		else if (typeof v[0] === 'object' && v[0] !== null)
 		    result[k].push( this.extend(data, v[0], {}) );
 		else
 		    result[k].push( v[0] );
