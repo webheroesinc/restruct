@@ -38,7 +38,7 @@ var str	= fill("{name.none}", Person);
 assert(str === "");
 
 var str	= fill("= {name.first}", Person);
-assert(str === "");
+assert(str === undefined);
 
 var str	= fill("= {name.none}", Person);
 assert(str === undefined);
@@ -72,3 +72,6 @@ try {
     else
 	console.log("Passed: caught error for create reserved method name");
 }
+
+var name = fill("< name", Person);
+assert(typeof name === 'object');

@@ -4,9 +4,7 @@ function __safeEval__(data, fn) {
     try {
 	value	= fn.call(data);
     }
-    catch (e) {
-	value	= '';
-    }
+    catch (e) {}
     return value;
 }
 function __startsWith__(s, n) {
