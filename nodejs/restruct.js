@@ -111,9 +111,14 @@ restruct.prototype.extend = function (data, struct, result) {
 	return result;
 }
 restruct.prototype.extend_list = function (rows, struct, result) {
-    for (var i in rows) {
-	rows[i][restruct.indexKey]	= parseInt(i);
-	this.extend(rows[i], struct, result);
+    if (rows.length === 0) {
+	this.extend({}, struct, result);
+    }
+    else {
+	for (var i in rows) {
+	    rows[i][restruct.indexKey]	= parseInt(i);
+	    this.extend(rows[i], struct, result);
+	}
     }
     return result;
 }
