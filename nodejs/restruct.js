@@ -59,9 +59,19 @@ restruct.prototype.extend = function (data, struct, result) {
 	    return this.extend(d, struct, {});
 	}
 	
+	var spot	= result;
 	var k		= fill(key, data);
 	if (k === undefined || k === null)
 	    continue;
+	else if (Array.isArray(k)) {
+	    for (var i=0; i < k.length-1; i++) {
+		var tk	= k[i];
+		if (result[tk] === undefined)
+		    result[tk]	= {};
+		result		= result[tk];
+	    }
+	    var k	= k[i];
+	}
 
 	if (result[k] === undefined) {
 	    if (v === true)
@@ -101,6 +111,10 @@ restruct.prototype.extend = function (data, struct, result) {
 
 	if (result[k] === undefined)
 	    delete result[k];
+
+	// If result was relocated by a dynamic key, spot will put it
+	// back in the original location.
+	result		= spot;
     }
     
     if (Array.isArray(struct)) {
