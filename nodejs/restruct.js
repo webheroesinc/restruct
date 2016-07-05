@@ -15,6 +15,7 @@ function restruct(data, struct) {
 }
 restruct.flattenTrigger	= '.array';
 restruct.rescopeTrigger	= '.rescope';
+restruct.keyKey		= '$key';
 restruct.indexKey	= '$index';
 restruct.parentKey	= '$parent';
 restruct.prototype.flatten = function (result, parent, key) {
@@ -31,6 +32,7 @@ restruct.prototype.flatten = function (result, parent, key) {
 	    this.flatten(result[k], result, k);
     }
 }    
+restruct.lastDynamicKey;
 restruct.prototype.extend = function (data, struct, result) {
     if (Array.isArray(data))
     	return this.extend_list(data, struct, result);
@@ -72,6 +74,8 @@ restruct.prototype.extend = function (data, struct, result) {
 	    }
 	    var k	= k[i];
 	}
+	
+	data[restruct.keyKey]		= restruct.lastDynamicKey;
 
 	if (result[k] === undefined) {
 	    if (v === true)
