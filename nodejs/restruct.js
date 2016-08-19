@@ -86,8 +86,9 @@ restruct.prototype.extend = function (data, struct, result) {
 	    else if(Array.isArray(v)) {
 		if (typeof v[0] === 'string')
 		    result[k]	= [ fill(v[0], data) ];
-		else if (typeof v[0] === 'object' && v[0] !== null)
+		else if (typeof v[0] === 'object' && v[0] !== null) {
 		    result[k]	= [ this.extend(data, v[0], {}) ];
+		}
 		else
 		    result[k]	= [ v[0] ];
 	    }
