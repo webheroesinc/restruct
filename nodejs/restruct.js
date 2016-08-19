@@ -73,6 +73,7 @@ restruct.prototype.extend = function (data, struct, result) {
 		result		= result[tk];
 	    }
 	    var k	= k[i];
+	    restruct.lastDynamicKey	= k;
 	}
 	
 	data[restruct.keyKey]		= restruct.lastDynamicKey;
