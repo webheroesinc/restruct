@@ -13,7 +13,7 @@ function __startsWith__(s, n) {
 function __format__(s, data) {
     var __value__;
     var __str__		= s.slice();
-    var __re__		= /{([^}]+)}/gi;
+    var __re__		= /{{([^}]+)}}/gi;
     var __match__	= __re__.exec(s);
     while (__match__ !== null) {
 	__value__	= __safeEval__(data, function() {
@@ -31,7 +31,7 @@ function __fill__(__str__, data) {
     if (typeof __str__ !== 'string')
 	throw new Error(
 	    __fill__(
-		"Populater can only handle string formatting not type '{type}' {data}",
+		"Populater can only handle string formatting not type '{{type}}' {{data}}",
 		{ type:typeof __str__, data:JSON.stringify(__str__, null, 4) }
 	    )
 	);

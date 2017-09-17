@@ -19,37 +19,37 @@ var Person = {
     }
 }
 
-var str	= fill("{name.first} {name.last}", Person);
+var str	= fill("{{name.first}} {{name.last}}", Person);
 assert(str === "Travis Mottershead");
 
-var str	= fill("{name['first']} {name['last']}", Person);
+var str	= fill("{{name['first']}} {{name['last']}}", Person);
 assert(str === "Travis Mottershead");
 
-var str	= fill("{name.first} {name.first}", Person);
+var str	= fill("{{name.first}} {{name.first}}", Person);
 assert(str === "Travis Travis");
 
 var str	= fill("< name.first", Person);
 assert(str === "Travis");
 
-var str	= fill("= {age} > 18", Person);
+var str	= fill("= {{age}} > 18", Person);
 assert(str);
 
-var str	= fill("{name.none}", Person);
+var str	= fill("{{name.none}}", Person);
 assert(str === "");
 
-var str	= fill("= {name.first}", Person);
+var str	= fill("= {{name.first}}", Person);
 assert(str === undefined);
 
-var str	= fill("= {name.none}", Person);
+var str	= fill("= {{name.none}}", Person);
 assert(str === undefined);
 
-var str	= fill(":= {name.full}", Person);
+var str	= fill(":= {{name.full}}", Person);
 assert(str === "= Travis Mottershead");
 
-var str	= fill("= '= {name.full}'", Person);
+var str	= fill("= '= {{name.full}}'", Person);
 assert(str === "= Travis Mottershead");
 
-var str	= fill(":: {name.full}", Person);
+var str	= fill(":: {{name.full}}", Person);
 assert(str === ": Travis Mottershead");
 
 var str	= fill("= this.name.full", Person);
@@ -75,3 +75,6 @@ try {
 
 var name = fill("< name", Person);
 assert(typeof name === 'object');
+
+var str	= fill("= ({name:{full:'Samuel Jackson'}}).name.full", Person);
+assert(str === "Samuel Jackson");
