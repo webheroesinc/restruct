@@ -3,7 +3,6 @@ var log		= bunyan.createLogger({name: 'api tests', level: "trace"});
 
 var expect	= require('chai').expect;
 var restruct	= require('./restruct');
-var fill	= restruct.populater;
 
 var e		= (e) => log.error(e);
 var n		= () => null;
@@ -12,7 +11,7 @@ function json(d,f) {
     return JSON.stringify(d, null, f?4:null);
 }
 	    
-fill.method('weightClass', function(w) {
+restruct.method('weightClass', function(w) {
     return w >= 200 ? '200+' : '0-199'
 });
 
@@ -164,7 +163,7 @@ describe('/restruct', function() {
     });
     
     it("should return frame information", function() {
-	fill.method('frame_info', function() {
+	restruct.method('frame_info', function() {
 	    return {
 		"index": this.index,		// 0
 		"data": this.data,		// { "id": 1, "name": "Chuck Norris" }

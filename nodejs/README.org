@@ -1,19 +1,21 @@
 
+* Usage
    
-** Usage
+** Basic
 
 
    #+BEGIN_SRC javascript
    var restruct		= require('restruct-data');
 
-   var struct		= restruct({
+   var struct		= restruct.structure({
+       "Hello": "< text"
    });
 
-   var data		= {
+   var result		= struct({
        text: "World"
-   };
-   var result		= struct(data);
-   // result = "Hello World!";
+   });
+
+   //  result		= { "Hello": "World!" };
    #+END_SRC
 
 
@@ -46,7 +48,7 @@
        }
    });
 
-   var struct		= restruct.collection([
+   var collection	= restruct.collection([
        {
            "id": 1,
            "name": "Chuck Norris"
@@ -56,5 +58,7 @@
        }
    ]);
 
-   var result		= collection.format("= frame_info()");
+   var result		= collection.format({
+       "< id": "= frame_info()"
+   });
    #+END_SRC

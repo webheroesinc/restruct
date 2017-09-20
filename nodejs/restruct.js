@@ -225,6 +225,9 @@ Restruct.prototype.extend_list = function (frame, struct, result) {
     return result;
 }
 
+Restruct.method		= function(name, fn, err) {
+    return populater.method(name, fn, err);
+};
 Restruct.populater	= populater;
 Restruct.structure	= Structure;
 Restruct.collection	= Collection;
