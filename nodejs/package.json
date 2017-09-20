@@ -1,6 +1,6 @@
 {
   "name": "restruct-data",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "ERROR: No README data found!",
   "main": "restruct.js",
   "scripts": {
@@ -13,7 +13,10 @@
   "author": "Matthew Brisebois",
   "license": "GPLv3",
   "dependencies": {
-    "populater": "^0.3.0"
+    "bunyan": "^1.8.12",
+    "populater": "^0.5.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.1.2"
+  }
 }
