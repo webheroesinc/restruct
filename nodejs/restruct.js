@@ -64,6 +64,9 @@ function Restruct(data, struct) {
     if (!(this instanceof Restruct))
 	return new Restruct(data, struct);
 
+    if (typeof struct !== 'object' || struct === null)
+	throw Error("Bad Structure: structure is undefined");
+    
     // Turn structure into predictable objects (no RegExp, undefined or function).  Limits the
     // complex objects to Array's and Dicts
     this.data		= data;
