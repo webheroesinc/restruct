@@ -11,7 +11,7 @@ setup(
     install_requires            = [
         'populater',
     ],
-    version                     = "0.2.0",
+    version                     = "0.2.1",
     include_package_data        = True,
     author                      = "Matthew Brisebois",
     author_email                = "matthew@webheroes.ca",
@@ -28,42 +28,66 @@ section of your JSON structure.
  Usage examples
 ===============
 
-*Lets assume we have an SQL join for a 1 to 1 relationship and that all the format variables used
-represent columns in the select tables.*
+*Lets assume we have a database with a user table that can be fetched with this query:*
 
 ::
   
-      SELECT user_id,
-             user_level,
-             level_name,
+      SELECT id,
              first_name,
              last_name,
-             email
+             email,
+             age
         FROM users
-        JOIN user_levels USING (user_level_id)
 
 Formatting
 =============
 
-*An example format structure for results from the above query:*
+*Here is how you could write a simple template to turn the SQL result (list of dicts) into a
+ prettier JSON structure:*
 
 ::
 
-    {
-        ".single": true,
-        ".key": "{user_id}",
-        "id": ": {user_id}", 
-        "level": {
-            "id": ": {user_level}", 
-            "name": ": {user_level_name}"
-        },
-        "name": {
-            "first": ":< first_name",
-            "last": ":< last_name", 
-            "full": "{first_name} {last_name}"
-        },
-        "email": true
+    struct = {
+        "< id": {
+            "id": "< id",
+            "name": {
+                "first": "< first_name",
+                "last": "< last_name",
+                "full": "{{first_name}} {{last_name}}"
+            },
+            "email": "< email",
+            "age": "< age"
+        }
     }
+
+    collection			= Restruct.collection( <list_of_dicts_from_database_query> )
+    collection.format(struct)
+
+    # Example output:
+    {
+        273667: {
+            "id": 273667,
+            "name": {
+                "first": "Jeff",
+                "last": "Goldbloom",
+                "full": "Jeff Goldbloom"
+            },
+            "email": "jeff.goldbloom@example.com",
+            "age": 49
+        },
+        93892: {
+            "id": 93892,
+            "name": {
+                "first": "Marty",
+                "last": "Mcfly",
+                "full": "Marty Mcfly"
+            },
+            "email": "marty.mcfly@example.com",
+            "age": 17
+        },
+        ...
+    }
+    
 
     """,
     keywords                    = ["mysql", "sqlite", "sql", "json"],
