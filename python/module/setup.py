@@ -3,22 +3,25 @@ from setuptools import setup
 setup(
     name                        = "restruct",
     packages                    = [
-        "ReStruct",
+        "restruct",
     ],
     package_dir                 = {
-        "ReStruct":		".",
+        "restruct":		".",
     },
-    version                     = "0.1.0",
+    install_requires            = [
+        'populater',
+    ],
+    version                     = "0.2.0",
     include_package_data        = True,
     author                      = "Matthew Brisebois",
     author_email                = "matthew@webheroes.ca",
     url                         = "https://github.com/webheroesinc/restruct",
     license                     = "Dual License; GPLv3 and Proprietary",
-    description                 = "Python implementation for turning SQL results into beautiful JSON structures.",
-    long_description		= """ReStruct is an easy light-weight formatting library that simplifies the process of representing
+    description                 = "Turn SQL results into beautiful JSON structures",
+    long_description		= """Restruct is an easy light-weight formatting library that simplifies the process of representing
 SQL results in a human readable format (JSON).  Pass the restruct method your SQL results and a
 formatting structure and voila, you have turned your complex SQL result into beautiful JSON.  One of
-the best features of ReStruct is squashing all the duplicate entries from SQL joins into a sub
+the best features of Restruct is squashing all the duplicate entries from SQL joins into a sub
 section of your JSON structure.
 
 ===============
@@ -67,7 +70,7 @@ Formatting
     classifiers                 = [
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "License :: Other/Proprietary License",
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.5",
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
     ],
