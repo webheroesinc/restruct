@@ -5,7 +5,7 @@ import json
 from populater				import Populater
 
 log					= logging.getLogger('Restruct')
-log.setLevel(logging.DEBUG)
+# log.setLevel(logging.DEBUG)
 
 
 class Collection( object ):
