@@ -8,9 +8,21 @@ var e		= (e) => log.error(e);
 var n		= () => null;
 
 function json(d,f) {
-    return JSON.stringify(d, null, f?4:null);
+    var cache	= [];
+    var text	= JSON.stringify(d, function(key, value) {
+	if (typeof value === 'object' && value !== null) {
+	    if (cache.indexOf(value) !== -1) {
+		return "[Circular]";
+	    }
+	    cache.push(value);
+	}
+	return value;
+    }, f?4:null);
+    cache	= null;
+    
+    return text;
 }
-	    
+
 restruct.method('weightClass', function(w) {
     return w >= 200 ? '200+' : '0-199'
 });
@@ -165,11 +177,13 @@ describe('/restruct', function() {
     it("should return frame information", function() {
 	restruct.method('frame_info', function() {
 	    return {
-		"index": this.index,		// 0
-		"data": this.data,		// { "id": 1, "name": "Chuck Norris" }
+		"frame": this,
+		"key": this.key,		// 0
+		"value": this.value,		// { "id": 1, "name": "Chuck Norris" }
+		"path": this.path,		// 
 
-		"check": this.source(this.index),
-		// 'this.data' is the same as 'this.source(this.index)'
+		"check": this.source(this.key),
+		// 'this.data' is the same as 'this.source(this.key)'
 
 		"parent": this.parent,		// parent Frame( [ { "id": 1, ...}, { "id": 2, ...} ] )
 		"source": this.source(),	// "this.parent.data" but returns null if no parent
@@ -180,6 +194,12 @@ describe('/restruct', function() {
 		"name": this.child('name'),	// Frame('Chuck Norris')
 		"children": this.children(),	// [ Frame(1), Frame('Chuck Norris') ]
 
+		"is_root": this.is_root(),
+		"parent_is_root": this.parent.is_root(),
+		
+		"first": this.first,
+		"last": this.last,
+		
 		// this.restruct	// restruct instance
 		// this.restruct.root	// root Frame(...), which would be 'this.parent' in this case
 	    };
@@ -193,18 +213,34 @@ describe('/restruct', function() {
 
 	var Travis	= data[1];
 	expect(Travis).to.be.an('Object');
-	expect(Travis).to.have.all.keys('index', 'data', 'check', 'parent', 'source',
-					'keys', 'values', 'id', 'name', 'children');
-	expect(Travis['index']).to.be.a('String');
-	expect(Travis['data']).to.be.an('Object');
-	expect(Travis['check']).to.equal(Travis.data);
+	expect(Travis['key']).to.be.a('String');
+	expect(Travis['value']).to.be.an('Object');
+	expect(Travis['check']).to.equal(Travis.value);
 	expect(Travis['parent']).to.be.an('Object');
 	expect(Travis['source']).to.be.an('Array');
 	expect(Travis['keys']).to.be.an('Array');
+	expect(Travis['keys']).to.deep.equal([ "id", "first", "last", "email", "gender", "age", "weight" ]);
 	expect(Travis['values']).to.be.an('Array');
+	expect(Travis['values']).to.deep.equal([ 1, "Travis", "Mottershead", "travis@pitch.so", "m", 20, 150 ]);
 	expect(Travis['id']).to.be.an('Object');
 	expect(Travis['name']).to.be.an('Object');
 	expect(Travis['children']).to.be.an('Array');
+	
+	expect(Travis['is_root']).to.be.a('Boolean');
+	expect(Travis['is_root']).to.equal(false);
+	expect(Travis['parent_is_root']).to.be.a('Boolean');
+	expect(Travis['parent_is_root']).to.equal(true);
+	expect(Travis['first']).to.equal(true);
+	expect(Travis['last']).to.equal(false);
+	
+	var Valerie	= data[4];
+	expect(Valerie['key']).to.be.a('String');
+	expect(Valerie['key']).to.equal('3');
+	expect(Valerie['first']).to.equal(false);
+	expect(Valerie['last']).to.equal(true);
+	
+	log.info("Result \n", json( Valerie.frame.result, 4 ));
+
     });
 	    
 });

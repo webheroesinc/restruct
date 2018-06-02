@@ -19,37 +19,58 @@ Collection.prototype.format	= function (struct) {
 }
 
 
-function Frame(data, parent, index) {
+function Frame(data, parent, key, result) {
     if (!(this instanceof Frame))
-	return new Frame(data, parent, index);
+	return new Frame(data, parent, key, result);
 
     this.parent		= parent || null;
-    this.index		= index || null;
-    this.data		= data;
+    this.key		= key || null;
+    this.value		= data;
+    this.result		= result || {};
+    this.first		= false;
+    this.last		= false;
+    this.path		= '';
+
+    var frame		= this;
+    while (frame.parent) {
+	this.path	= '/'+frame.key+this.path;
+	frame		= frame.parent;
+    };
+    
+    if (this.parent) {
+	var keys	= this.parent.keys();
+	this.first	= this.key === keys[0];
+	this.last	= this.key === keys[keys.length-1];;
+    }
+}
+Frame.prototype.is_root		= function() {
+    return !this.parent;
 }
 Frame.prototype.source		= function(key) {
     if (!this.parent)
 	return null;
     else
-	return key ? this.parent.data[key] : this.parent.data;
+	return key ? this.parent.value[key] : this.parent.value;
 };
 Frame.prototype.keys		= function() {
-    return Object.keys(this);
+    return Object.keys(this.value);
 };
 Frame.prototype.values		= function() {
     var $this	= this;
     return this.keys().map(function(k) {
-	return $this.data[k];
+	return $this.value[k];
     });
 };
 Frame.prototype.child		= function(k) {
-    return Frame(this.data[k], this, k);
+    return Frame(this.value[k], this, k, this.result);
 };
 Frame.prototype.children	= function() {
     var $this	= this;
     return this.keys().map(function(k) {
 	return $this.child(k);
     });
+};
+Frame.prototype.path		= function() {
 };
 Frame.prototype.root		= function() {
     var frame	= this;
@@ -73,16 +94,16 @@ function Restruct(data, struct) {
     this.struct		= JSON.parse(JSON.stringify(struct));
     this.root		= Frame(data);
     
-    var result		= {};
-    this.extend(this.root, this.struct, result);
-    result		= this.flatten(result);
-    return result;
+    this.extend(this.root, this.struct, this.root.result);
+    this.root.result	= this.flatten(this.root.result);
+    
+    return this.root.result;
 }
 Restruct.flattenTrigger	= '__array';
 Restruct.rescopeTrigger	= '__rescope';
-Restruct.keyKey		= '$key';
-Restruct.indexKey	= '$index';
-Restruct.parentKey	= '$parent';
+// Restruct.keyKey		= '$key';
+// Restruct.indexKey	= '$index';
+// Restruct.parentKey	= '$parent';
 Restruct.lastDynamicKey;
 
 Restruct.prototype.flatten	= function (result, flattened) {
@@ -110,7 +131,7 @@ Restruct.prototype.flatten	= function (result, flattened) {
     return result;
 }    
 Restruct.prototype.extend = function (frame, struct, result) {
-    var data		= frame.data;
+    var data		= frame.value;
     
     if (Array.isArray(data))
     	return this.extend_list(frame, struct, result);
@@ -157,7 +178,7 @@ Restruct.prototype.extend = function (frame, struct, result) {
 	    Restruct.lastDynamicKey	= k;
 	}
 	
-	data[Restruct.keyKey]		= Restruct.lastDynamicKey;
+	// data[Restruct.keyKey]		= Restruct.lastDynamicKey;
 
 	if (result[k] === undefined) {
 	    if (v === true)
@@ -213,19 +234,18 @@ Restruct.prototype.extend = function (frame, struct, result) {
 	return result;
 }
 Restruct.prototype.extend_list = function (frame, struct, result) {
-    var rows		= frame.data;
+    var rows		= frame.value;
     if (rows.length === 0) {
 	// this.extend({}, struct, result);
     }
     else {
 	for (var i in rows) {
-	    rows[i][Restruct.indexKey]	= parseInt(i);
-	    rows[i][Restruct.parentKey]	= rows;
+	    // rows[i][Restruct.indexKey]	= parseInt(i);
+	    // rows[i][Restruct.parentKey]	= rows;
 	    
 	    this.extend(frame.child(i), struct, result);
 	}
     }
-    return result;
 }
 
 Restruct.method		= function(name, fn, err) {
